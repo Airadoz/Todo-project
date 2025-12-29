@@ -4,6 +4,8 @@ const dialog = document.querySelector("dialog");
 const show_modal = document.querySelector("button.show");
 //#endregion
 
+let editing = false;
+
 const data = [
     {
         name: "Finish this todo project",
@@ -45,11 +47,20 @@ const modal = (() => {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             const todo = {};
-            todo.name = nodes.name.value;
-            todo.status = nodes.status.value;
-            todo.date = nodes.date.value;
-            todo.id = Date.now();
-            data.push(todo);
+            if (!editing) {
+                todo.name = nodes.name.value;
+                todo.status = nodes.status.value;
+                todo.date = nodes.date.value;
+                todo.id = Date.now();
+                data.push(todo);
+                modal.close();
+            } else {
+                const id = get_id();
+                data[id].date = nodes.date.value;
+                data[id].name = nodes.name.value;
+                data[id].status = nodes.status.value;
+                modal.close();
+            }
             display_data(data);
             console.log(data);
             return todo;
@@ -82,22 +93,39 @@ function get_nodes(template, mode) {
         const name = template.querySelector("[data-name]");
         const status = template.querySelector("[data-status]");
         const date = template.querySelector("[data-date]");
+        const edit_btn = template.querySelector(".edit");
+        const delete_btn = template.querySelector(".delete");
+
         return {
             name,
             status,
             date,
             todo,
+            edit_btn,
+            delete_btn,
         };
     } else {
         return;
     }
 }
 
-function edit_todo(id, node) {
+function get_id(id) {
+    return id;
+}
+
+function edit_todo(id, node, source) {
     if (!id) return;
+    editing = true;
+    get_id(id);
     const index = data.findIndex((val) => val.id === id);
-    data[index].status = node.value;
+    if (source === "select") {
+        data[index].status = node.value;
+    } else {
+        dialog.showModal();
+    }
     console.log(data);
+
+    editing = false;
 }
 function display_data(data) {
     if (!Array.isArray(data) && data.length < 0) return;
@@ -111,6 +139,9 @@ function display_data(data) {
         nodes.date.innerHTML = formatter.format(element.date.value);
         nodes.todo.setAttribute("data-id", element.id);
         nodes.status.addEventListener("change", () => {
+            edit_todo(element.id, nodes.status, "select");
+        });
+        nodes.edit_btn.addEventListener("click", () => {
             edit_todo(element.id, nodes.status);
         });
         content.append(todo);
