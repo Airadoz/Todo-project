@@ -48,15 +48,39 @@ const modal = (() => {
     return { show, close, get_data };
 })();
 
-function get_nodes(template) {
-    const name = template.querySelector("#name");
-    const name_label = template.querySelector("[for='name']");
-    const status = template.querySelector("#status");
-    const status_label = template.querySelector("[for='status']");
-    const date = template.querySelector("#date");
-    const date_label = template.querySelector("[for='date']");
-    const close = template.querySelector(".close");
-    return { name, name_label, status, status_label, date, date_label, close };
+function get_nodes(template, mode) {
+    if (mode === "modal") {
+        const name = template.querySelector("#name");
+        const name_label = template.querySelector("[for='name']");
+        const status = template.querySelector("#status");
+        const status_label = template.querySelector("[for='status']");
+        const date = template.querySelector("#date");
+        const date_label = template.querySelector("[for='date']");
+        const close = template.querySelector(".close");
+        return {
+            name,
+            name_label,
+            status,
+            status_label,
+            date,
+            date_label,
+            close,
+        };
+    } else if (mode === "todo") {
+        const name = template.querySelector("[data-name]");
+        const status = template.querySelector("[data-status]");
+        const date = template.querySelector("[data-date]");
+        return {
+            name,
+            status,
+            date,
+        };
+    }
+}
+function display_data(data) {
+    if (!Array.isArray(data) && data.length < 0) return;
+
+    data.forEach((element) => {});
 }
 
 dialog.append(template.get("#modal"));
