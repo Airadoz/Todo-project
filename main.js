@@ -6,6 +6,8 @@ const show_modal = document.querySelector("button.show");
 
 const data = [];
 
+const formatter = new Intl.DateTimeFormat("ru-RU");
+
 const template = (() => {
     function get(temp) {
         if (!temp && typeof temp !== "string") return;
@@ -40,6 +42,7 @@ const modal = (() => {
             todo.status = nodes.status.value;
             todo.date = nodes.date.value;
             data.push(todo);
+            display_data(data);
             console.log(data);
             return todo;
         });
@@ -81,8 +84,16 @@ function get_nodes(template, mode) {
 }
 function display_data(data) {
     if (!Array.isArray(data) && data.length < 0) return;
+    content.innerHTML = "";
 
-    data.forEach((element) => {});
+    data.forEach((element) => {
+        const todo = template.get("#todo_template");
+        const nodes = get_nodes(todo, "todo");
+        nodes.name.innerHTML = element.name;
+        nodes.status.innerHTML = element.status;
+        nodes.date.innerHTML = formatter.format(element.date.value);
+        content.append(todo);
+    });
 }
 
 dialog.append(template.get("#modal_template"));
