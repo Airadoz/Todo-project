@@ -9,6 +9,7 @@ const data = [
         name: "Finish this todo project",
         status: "working",
         date: "29.12.2025T16:52:00",
+        id: 786465498464684546846,
     },
 ];
 
@@ -47,6 +48,7 @@ const modal = (() => {
             todo.name = nodes.name.value;
             todo.status = nodes.status.value;
             todo.date = nodes.date.value;
+            todo.id = Date.now();
             data.push(todo);
             display_data(data);
             console.log(data);
@@ -90,6 +92,13 @@ function get_nodes(template, mode) {
         return;
     }
 }
+
+function edit_todo(id, node) {
+    if (!id) return;
+    const index = data.findIndex((val) => val.id === id);
+    data[index].status = node.value;
+    console.log(data);
+}
 function display_data(data) {
     if (!Array.isArray(data) && data.length < 0) return;
     content.innerHTML = "";
@@ -100,7 +109,10 @@ function display_data(data) {
         nodes.name.innerHTML = element.name;
         nodes.status.value = element.status;
         nodes.date.innerHTML = formatter.format(element.date.value);
-        nodes.todo.setAttribute("data-id", Date.now());
+        nodes.todo.setAttribute("data-id", element.id);
+        nodes.status.addEventListener("change", () => {
+            edit_todo(element.id, nodes.status);
+        });
         content.append(todo);
     });
 }
