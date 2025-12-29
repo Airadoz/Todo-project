@@ -4,7 +4,13 @@ const dialog = document.querySelector("dialog");
 const show_modal = document.querySelector("button.show");
 //#endregion
 
-const data = [];
+const data = [
+    {
+        name: "Finish this todo project",
+        status: "working",
+        date: "29.12.2025T16:52:00",
+    },
+];
 
 const formatter = new Intl.DateTimeFormat("ru-RU");
 
@@ -99,3 +105,4 @@ function display_data(data) {
 dialog.append(template.get("#modal_template"));
 modal.show(show_modal);
 modal.get_data(dialog);
+display_data(data);
