@@ -4,6 +4,8 @@ const dialog = document.querySelector("dialog");
 const show_modal = document.querySelector("button.show");
 //#endregion
 
+const data = [];
+
 const template = (() => {
     function get(temp) {
         if (!temp && typeof temp !== "string") return;
@@ -15,8 +17,6 @@ const template = (() => {
     return { get };
 })();
 const modal = (() => {
-    const temp = template.get("#modal");
-
     function show(e) {
         e.addEventListener("click", () => {
             dialog.showModal();
@@ -27,6 +27,38 @@ const modal = (() => {
             dialog.close();
         });
     }
+    function get_data(template) {
+        const nodes = get_nodes(template);
+        const form = template.querySelector("form");
 
-    return { show, close };
+        modal.close(nodes.close);
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const todo = {};
+            todo.name = nodes.name.value;
+            todo.status = nodes.status.value;
+            todo.date = nodes.date.value;
+            data.push(todo);
+            console.log(data);
+            return todo;
+        });
+    }
+
+    return { show, close, get_data };
 })();
+
+function get_nodes(template) {
+    const name = template.querySelector("#name");
+    const name_label = template.querySelector("[for='name']");
+    const status = template.querySelector("#status");
+    const status_label = template.querySelector("[for='status']");
+    const date = template.querySelector("#date");
+    const date_label = template.querySelector("[for='date']");
+    const close = template.querySelector(".close");
+    return { name, name_label, status, status_label, date, date_label, close };
+}
+
+dialog.append(template.get("#modal"));
+modal.show(show_modal);
+modal.get_data(dialog);
