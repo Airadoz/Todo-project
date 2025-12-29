@@ -12,5 +12,31 @@
             <div class="left"></div>
             <div class="right"><div class="content"></div></div>
         </div>
+        <!-- #region templates -->
+        <template id="modal">
+            <form>
+                <div class="input">
+                    <label for="name">Enter todo's name</label>
+                    <input type="text" id="name" required />
+                </div>
+                <div class="input">
+                    <label for="status">Specify todo's status</label>
+                    <select name="status" id="status">
+                        <option value="">-- Select a status --</option>
+                        <option value="planned">Planned</option>
+                        <option value="working">Working</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </div>
+                <div class="input">
+                    <label for="date">Choose todo's due date</label>
+                    <input type="datetime-local" name="date" id="date" />
+                </div>
+                <div class="btns input">
+                    <button type="submit">Add todo</button>
+                </div>
+            </form>
+        </template>
+        <!-- #endregion -->
     </body>
 </html>
