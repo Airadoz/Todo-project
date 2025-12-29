@@ -16,7 +16,7 @@
             <dialog closedby="any"></dialog>
         </div>
         <!-- #region templates -->
-        <template id="modal">
+        <template id="modal_template">
             <form>
                 <div class="input">
                     <label for="name">Enter todo's name</label>
@@ -36,10 +36,23 @@
                     <input type="datetime-local" name="date" id="date" />
                 </div>
                 <div class="btns input">
-                    <button type="submit">Add todo</button>
+                    <button class="btn" type="submit">Add todo</button>
                 </div>
                 <span class="close">X</span>
             </form>
+        </template>
+        <template id="todo_template">
+            <div class="todo">
+                <div class="info">
+                    <div class="info_item" data-name></div>
+                    <div class="info_item" data-status></div>
+                    <div class="info_item" data-date></div>
+                </div>
+                <div class="btns">
+                    <button class="btn" type="submit">Edit todo</button>
+                    <button class="btn" type="submit">Delete todo</button>
+                </div>
+            </div>
         </template>
         <!-- #endregion -->
     </body>
