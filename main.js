@@ -96,7 +96,7 @@ function display_data(data) {
         const todo = template.get("#todo_template");
         const nodes = get_nodes(todo, "todo");
         nodes.name.innerHTML = element.name;
-        nodes.status.innerHTML = element.status;
+        nodes.status.value = element.status;
         nodes.date.innerHTML = formatter.format(element.date.value);
         content.append(todo);
     });
