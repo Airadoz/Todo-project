@@ -28,7 +28,7 @@ const modal = (() => {
         });
     }
     function get_data(template) {
-        const nodes = get_nodes(template);
+        const nodes = get_nodes(template, "modal");
         const form = template.querySelector("form");
 
         modal.close(nodes.close);
@@ -75,6 +75,8 @@ function get_nodes(template, mode) {
             status,
             date,
         };
+    } else {
+        return;
     }
 }
 function display_data(data) {
@@ -83,6 +85,6 @@ function display_data(data) {
     data.forEach((element) => {});
 }
 
-dialog.append(template.get("#modal"));
+dialog.append(template.get("#modal_template"));
 modal.show(show_modal);
 modal.get_data(dialog);
