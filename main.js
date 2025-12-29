@@ -76,6 +76,7 @@ function get_nodes(template, mode) {
             close,
         };
     } else if (mode === "todo") {
+        const todo = template.querySelector(".todo");
         const name = template.querySelector("[data-name]");
         const status = template.querySelector("[data-status]");
         const date = template.querySelector("[data-date]");
@@ -83,6 +84,7 @@ function get_nodes(template, mode) {
             name,
             status,
             date,
+            todo,
         };
     } else {
         return;
@@ -98,6 +100,7 @@ function display_data(data) {
         nodes.name.innerHTML = element.name;
         nodes.status.value = element.status;
         nodes.date.innerHTML = formatter.format(element.date.value);
+        nodes.todo.setAttribute("data-id", Date.now());
         content.append(todo);
     });
 }
